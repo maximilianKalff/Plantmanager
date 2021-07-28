@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="src/styles.css" />
+    <title>Pflanzenmanager</title>
+  </head>
+  <body>
+    <!-- === HEADER ===-->
+
+    <nav class="header-nav">
+      <a href="index.html">
+        <img src="src/Logo2.jpg" alt="Das Logo vom Pflanzenmanager" />
+      </a>
+
+      <ul>
+        <li class="active"><a href="index.html">Startseite</a></li>
+        <li><a href="Pflanzenübersicht.html">Pflanzenübersicht</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+      </ul>
+    </nav>
+
+    <!-- === YOUR PLANTS === -->
+
+    <div class="plantselection">
+      <h2 class="center yourplants">Deine Pflanzen</h2>
+      <table class="tabelle" id="planttable">
+        <tr id="col1"></tr>
+      </table>
+
+      <div class="selected-col center center-high">
+        <a href="pflanzenhinzufuegen.html">
+          <button type="button" class="addplant">
+            Neue Pflanze hinzufügen
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- === WELCOME PAGE === -->
+    <div class="einführung center">
+      <h1>Willkommen bei deinem Pflanzenmanager!</h1>
+
+      <p>
+        Alle Pflanzenliebhaber neigen wohl dazu, bestimmte Tätigkeiten im
+        Alltagsstress aus den Augen zu verlieren; denn wer kennt es nicht? Mal
+        ist es das Wasser, mal der Dünger. Doch damit ist es jetzt Schluss!
+        <br />
+        <br />
+        In dem Pflanzenmanager wirst du immer daran erinnert, wann die nächste
+        Gießung ansteht und was du dabei beachten musst. Dafür musst du nur in
+        der linken Spalte einen digitalen Klon deiner Pflanze erzeugen, der dich
+        automatisch daran erinnert, dich um ihn zu kümmern!
+      </p>
+    </div>
+    <div class="erinnerung center">
+      <p>
+        <b>
+          Du musst die <span class="grün" id="nextplantname"></span>
+          <br />
+          in <span class="grün" id="nextplantdays"> </span> Tagen gießen!
+        </b>
+      </p>
+    </div>
+
+    <script>
+      ls = localStorage;
+
+      let plants = [];
+
+      plants = JSON.parse(ls.getItem("plants"));
+
+      for (let i = 0; i < plants.length; i++) {
+        caculateNextWateringDay(plants, i);
+      }
+
+      // Nächstes Gießdatum berechnen
+      function caculateNextWateringDay(plants, zahl) {
+        let lastWatering = readLastWateringDay(plants, zahl); //safe
+        let wateringDays = readWateringDays(plants, zahl); //safe
+        let today = new Date(); //safe
+        return Math.floor(
+          lastWatering + new Date(wateringDays * 3600 * 24 * 1000)
+        );
+      }
+
+      function caculateWateringCountdown(plants, zahl) {
+        if (caculateNextWateringDay(plants, zahl) == null) {
+          return 0;
+        } else {
+          let nextDay = caculateNextWateringDay(plants, zahl);
+          return Math.floor(nextDay - new Date() / (3600 * 24 * 1000));
+        }
+      }
+
+      function benachrichtigen (){
+        for(let i = 0; i < plants.length; i++){
+          if (caculateWateringCountdown(plants,i) == 0) {
+            new Notification ("   ", { body : "Ich bin durstig" });
+          }
+        }
+      }
+      benachrichtigen ();
+
+      function readLastWateringDay(plants, zahl) {
+        return plants[zahl].lastDate;
+      }
+
+      function readWateringDays(plants, zahl) {
+        return plants[zahl].time;
+      }
+
+      /* === Tabelle ausfüllen ===*/
+
+      table();
+      function table() {
+        if (plants) {
+          for (let i = 0; i < plants.length; i++) {
+            let content =
+              '<tr><td><img src="' +
+              plants[i].img +
+              '" class="iconplant-selected" /></td><td>' +
+              plants[i].name +
+              '</td><td><button type="button" class="deletebtn2">Gießen</button></td><td><button type="button" class="deletebtn" onclick="deletePlant(' +
+              i +
+              ')">Entfernen</button></td></tr>';
+            document.getElementById("planttable").innerHTML += content;
+          }
+        }
+      }
+
+      /* === Gießanzeige ===*/
+
+      function findNextPlantThatHasToBeWatered() {
+        // Minimum an Countdown5
+        let i = 0;
+        if (plants[0] == null) {
+          return null;
+        }
+        let nextPlant = plants[0];
+        let stelleNextPlant = 0;
+        while (plants[i] != null && i < 100) {
+          if (
+            caculateWateringCountdown(plants, i) < caculateWateringCountdown(plants, stelleNextPlant)
+          ) {
+            nextPlant = plants[i];
+          }
+          i++;
+        }
+        return nextPlant;
+      }
+
+      function deletePlant(i) {
+        plants.splice(i, 1);
+        ls.setItem("plants", JSON.stringify(plants));
+        window.location.reload();
+      }
+
+      // Text in Startseite einfügen
+
+      let nextplantnamediv = document.getElementById("nextplantname");
+      let nextplantdaysdiv = document.getElementById("nextplantdays");
+
+      if (findNextPlantThatHasToBeWatered() != null) {
+        nextplantnamediv.innerHTML =
+          "Pflanze " + findNextPlantThatHasToBeWatered().name; //Der findet den Namen nicht? @Aaron :()
+        nextplantdaysdiv.innerHTML =
+          findNextPlantThatHasToBeWatered().time + " ";
+      } else {
+        nextplantnamediv.innerHTML = "keine Pflanze";
+        nextplantdaysdiv.innerHTML = "keinen ";
+      }
+    </script>
+  </body>
+</html>

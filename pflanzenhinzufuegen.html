@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="src/styles.css">
+    <title>Pflanze hinzufügen</title>
+
+</head>
+<body>
+
+    <!-- === HEADER === -->
+        
+    <nav class="header-nav">
+
+            <a href="index.html">
+                <img src="src/Logo2.jpg" alt="Das Logo vom Pflanzenmanager">
+            </a>
+
+            <ul>
+                <li><a href="index.html">Startseite</a></li>
+                <li><a href="Pflanzenübersicht.html">Pflanzenübersicht</a></li>
+                <li><a href="impressum.html">Impressum</a></li>
+            
+            </ul>
+
+    </nav>
+
+    <div class="addPlantWindow">
+
+    <h1>Neue Pflanze hinzufügen</h1>
+
+    <!-- Textbox für Planzenname -->
+
+    <input type="text" size=30 class="hoverelement" max-length="30" placeholder="Name der Pflanze" id="plantname">
+    <br/>
+    
+    <!-- Radioboxes & Pflanzenicons  -->
+
+    <p>Bitte wähle eines der folgenden Icons an.</p>
+    <br>
+
+    <div class="plantRadiobuttons">
+
+        <input type="radio" name="plantradios" id="plantradio1" checked>
+        <label for="plantradio1">
+            <img src="src/planticons/icon1.png" class="planticons" id="planticon1" alt="Pflanzenicon Eins"/>
+        </label>
+
+        <input type="radio" name="plantradios" id="plantradio2" unchecked>
+        <label for="plantradio2">
+            <img src="src/planticons/icon2.png" class="planticons" id="planticon2"alt="Pflanzenicon Zwei"/>
+        </label>
+
+        <input type="radio" name="plantradios" id="plantradio3" unchecked>
+        <label for="plantradio3">
+            <img src="src/planticons/icon3.png" class="planticons" id="planticon3"alt="Pflanzenicon Drei"/>
+        </label>
+
+        <input type="radio" name="plantradios" id="plantradio4" unchecked>
+        <label for="plantradio4">
+            <img src="src/planticons/icon4.png" class="planticons" id="planticon4"alt="Pflanzenicon Vier"/>
+        </label>
+
+        <input type="radio" name="plantradios" id="plantradio5" unchecked>
+        <label for="plantradio5">
+            <img src="src/planticons/icon5.png" class="planticons" id="planticon5"alt="Pflanzenicon Fünf"/>
+        </label>
+        
+    </div>
+    
+    <!-- Range Slider für Gießabstand -->
+    <div class="rangeslider">
+        <p>In welchen Abständen muss die Pflanze gegossen werden?</p>
+
+        <input type="range" onchange="sliderValue();" oninput="sliderValue();" name="slider" min="1" max="31" value="1" class="wateringDaysSlider" id="wateringDaysInput">
+        <output for="slider" onforminput="value = slider.valueAsNumber;"></output>
+        </br>
+
+    </div>
+
+    <p id="valuetext">1 Tag</p>
+
+    <!-- Button um Pflanze hinzuzufügen -->
+    <a href="index.html">
+        <button type="button" class="hoverelement" size=30 onclick="addPlant();">
+            Pflanze hinzufügen
+        </button> 
+    </a>
+
+    <br/>
+    <br/>
+
+    <!--<button type="button" onclick="activate()">
+    Ich möchte benachrichtigt werden</label>-->
+    <input type = "checkbox"  onclick="activate()" id = "einverstaendnis">
+    <label for="checkbox">Ich möchte benachrichtigt werden</label>
+        </br>
+        </br>
+    
+
+
+    </div>
+
+    <script>
+        function sliderValue() {
+            let slider = document.getElementById("wateringDaysInput");
+            let value = slider.value;
+
+            let text = document.getElementById("valuetext");
+            text.innerHTML = value + " Tage";
+        }
+
+        function addPlant() {
+            let plantname = readName();
+            let wateringDays = readWateringDays();
+            let planticon = readIcon();
+            let today = new Date();
+            let next = new Date("1970-01-01");
+
+            let ls = localStorage;
+                       
+            
+            // Nur für den Test :)
+            //alert("Die Pflanze heißt " + plantname + ", hat das Icon " + planticon.alt + " und muss alle " + wateringDays + " Tage gegossen werden.");
+
+            let plants = JSON.parse(ls.getItem("plants")) || [];
+
+            let plant = {
+                name: plantname,
+                img: planticon.src,
+                time: wateringDays,
+                lastDate: today,
+                nextDate: next,
+            }
+
+            plants.push(plant);           
+            
+            ls.setItem("plants", JSON.stringify(plants))
+
+        }
+        
+
+        function readName() {
+            let plantnameTextbox = document.getElementById("plantname");            
+            return plantnameTextbox.value;
+        }
+        
+        function readWateringDays() {
+            let wateringDaysSlider = document.getElementById("wateringDaysInput");
+            return wateringDaysSlider.value;
+        }
+
+        function readIcon() {
+            let planticon = 1;
+            if(document.getElementById('plantradio1').checked) {
+                planticon = 1;
+            } else if(document.getElementById('plantradio2').checked) {
+                planticon = 2;
+            } else if(document.getElementById('plantradio3').checked) {
+                planticon = 3;
+            } else if (document.getElementById('plantradio4').checked) {
+                planticon = 4;
+            } else if (document.getElementById('plantradio5').checked) {
+                planticon = 5;
+            }
+            let icon = new Image();
+            icon.alt = planticon;
+            icon.src = "src/planticons/icon"+ planticon +".png";
+            return icon;
+        }  
+        
+        function activate(){
+            let einverstaendnisWert = document.getElementById ("einverstaendnis")
+            let einverstaendnis = einverstaendnisWert.value
+            if (Notification . permission === "granted"){
+                new Notification ("", { body : "Du wirst benachrichtigt, sobald die nächste Gießung ansteht." });
+
+            }
+            else if ( Notification . permission === "denied"){
+                alert ("Du musst in den Einstellungen die Benachrichtigung aktivieren, damit alles klappt");
+            }
+            else {
+                    Notification.requestPermission();
+                    
+            }
+            
+            
+            
+        }
+        
+
+    </script>
+
+
+</body>
+</html>

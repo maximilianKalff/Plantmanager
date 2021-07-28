@@ -1,0 +1,305 @@
+/*
+=== COLOR ===
+
+green: #00b33c
+
+
+*/
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Arial";
+  font-variant: small-caps;
+  font-size: 18px;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.center {
+  display: grid;
+  justify-content: center;
+}
+
+.center-high {
+  display: grid;
+  align-items: center;
+}
+
+.right {
+  display: grid;
+  justify-content: right;
+  position: relative;
+}
+.left {
+  display: grid;
+  justify-content: left;
+}
+/* === HEADER === */
+
+.header-nav {
+  width: 100%;
+  height: 75px;
+  background-color: #66a54d;
+  position: relative;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.header-nav a > img {
+  height: 60px;
+  width: auto;
+  float: left;
+  margin: 6px;
+  border-radius: 7px;
+  margin-left: 12px;
+}
+
+.header-nav ul {
+  margin: 0;
+  padding: 0;
+  float: right;
+  height: 100%;
+}
+
+.header-nav ul > li {
+  display: inline-block;
+  margin-left: 0.45rem;
+  height: 100%;
+  padding: 0 0.4rem 0 0.4rem;
+}
+
+.header-nav ul > li > a {
+  display: inline-block;
+  margin-top: 1.5em;
+}
+
+.header-nav ul > li > a:link {
+  color: #000;
+  text-decoration: none;
+}
+
+.header-nav ul > li > a:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.header-nav ul > li > a:active {
+  color: #000;
+  text-decoration: none;
+}
+
+.header-nav ul > li > a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+.active {
+  background-color: #fff;
+}
+
+/* === Plant Selection === */
+
+.plantselection {
+  width: 35%;
+  height: 100%;
+  padding: 15px;
+  background-color: #f2f2f2;
+  border-width: 0;
+  border-style: solid;
+  border-right-color: #66a54d;
+  border-right-width: 1px;
+  float: left;
+}
+
+.addplant {
+  background-color: #fff;
+  font-size: 20px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: rgb(122, 122, 122);
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.selected-col {
+  width: 100%;
+  border: 0;
+  min-height: 80px;
+}
+
+.iconplant-selected {
+  height: 70px;
+  border: 2px solid rgb(122, 122, 122);
+  border-radius: 10px;
+}
+
+.deletebtn2 {
+  text-align: center;
+  background-color: rgb(107, 197, 209);
+  font-size: 15px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: rgb(122, 122, 122);
+  border-style: solid;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deletebtn {
+  text-align: center;
+  background-color: rgb(238, 80, 80);
+  font-size: 15px;
+  padding: 10px;
+  border-width: 2px;
+  border-color: rgb(122, 122, 122);
+  border-style: solid;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.einführung {
+  background-color: #fff;
+  font-size: 15px;
+  padding: 10px;
+  margin-left: 40%;
+  margin-top: 2%;
+  width: 50%;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(122, 122, 122);
+}
+
+.tabelle {
+  width: 100%;
+  text-align: center;
+  border-bottom: 2px solid rgb(122, 122, 122);
+}
+
+.erinnerung {
+  background-color: #fff;
+  font-size: 30px;
+  padding: 10px;
+  margin-left: 40%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  width: 50%;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(122, 122, 122);
+  text-align: center;
+}
+
+.grün {
+  color: #66a54d;
+}
+
+/* === Pflanzenübersicht === */
+
+.planttest {
+  width: 100%;
+  border: 0;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: rgb(0, 0, 0);
+  min-height: 200px;
+  text-align: center;
+}
+.plant1 {
+  min-height: 200px;
+  width: 25%;
+  background-color: rgb(147, 172, 119);
+  margin-left: auto;
+  margin-right: auto;
+}
+.plant11 {
+  width: 100%;
+  border: 0;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: rgb(0, 0, 0);
+  min-height: 50px;
+  text-align: center;
+}
+.plant12 {
+  width: 100%;
+  border: 0;
+  border-bottom-width: 2px;
+  min-height: 50px;
+  text-align: center;
+}
+
+.blumen {
+  text-align: center;
+}
+
+.bildblumen {
+  width: 20%;
+}
+
+/* === Pflanze hinzufügen === */
+
+.addPlantWindow {
+  min-height: 200px;
+  min-width: 600px;
+  width: 25%;
+  background-color: rgb(255, 255, 255);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.hoverelement {
+  font-family: "Arial";
+  font-variant: small-caps;
+  font-size: 18px;
+}
+.hoverelement:hover {
+  cursor: pointer;
+}
+
+.planticons {
+  border-radius: 10px;
+  height: 100px;
+  cursor: pointer;
+}
+
+/* === Radiobuttons & Icons === */
+
+.plantRadiobuttons input {
+  opacity: 0;
+}
+
+input[type="radio"]:checked + label {
+  border: 2px solid rgb(122, 122, 122);
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* === Range Slider === */
+
+.wateringDaysSlider {
+  width: 350px;
+  cursor: pointer;
+}
+
+.wateringDaysSlider:active {
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  background-color: red;
+}
+
+.wateringDaysSlider:hover {
+  cursor: pointer;
+}
+
+input[type="rangeslider"]::-ms-tooltip {
+  display: none;
+}
